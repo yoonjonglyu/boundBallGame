@@ -105,8 +105,8 @@ class DrawBrick {
 class DrawPaddle extends Canvas{
     constructor () {
         super();
-        this._width = 100;
-        this._height = 20;
+        this._width = this.canvas.width / 8;
+        this._height = this.canvas.height / 20;
         this._x = (this.canvas.width - this.width) / 2;
         this.leftMove = false;
         this.rightMove = false;
