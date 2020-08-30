@@ -10,14 +10,22 @@
  * @constructor canvas, ctx
  */
 class Canvas {
-    constructor(){
+    constructor () {
         this.canvas = document.querySelector('#gameBoard');
+        this.canvasWidth = this.canvas.offsetWidth;
+        this.canvasHeight = this.canvas.offsetHeight;
+        this.canvas.width = this.canvasWidth;
+        this.canvas.height = this.canvasHeight;
         this.ctx = this.canvas.getContext('2d');
     }
 
     setCanvas (target) {
         this.canvas = document.querySelector(target);
         this.ctx = this.canvas.getContext('2d');
+    }
+
+    clearCanvas () {
+        this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
     }
 }
 /**
@@ -27,7 +35,7 @@ class Canvas {
  * @constructor x, y, ballRadius, color, colorIndex
  */
 class DrawBall extends Canvas {
-  constructor(){
+  constructor () {
       super();
       this._x = this.canvas.width / 2;
       this._y = this.canvas.height - 30;
@@ -70,15 +78,19 @@ class DrawBall extends Canvas {
       return this._colorIndex;
   }
   set colorIndex (value) {
-      this._colorIndex = value;
+      if(this.color.length - 1 >= value){
+          this._colorIndex = value;
+      } else {
+          this._colorIndex = 0;
+      }
       this.drawBall();
   }
 
   // draw ball
   drawBall () {
-    this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
+    this.clearCanvas();
     this.ctx.beginPath();
-    this.ctx.arc(this._x, this._y, this._ballRadius, 0, Math.PI*2);
+    this.ctx.arc(this._x, this._y, this._ballRadius, 0, (Math.PI * 2));
     this.ctx.fillStyle = this.color[this.colorIndex];
     this.ctx.fill();
     this.ctx.closePath();
@@ -90,8 +102,78 @@ class DrawBrick {
 }
 
 // 패들에 관한 클래스
-class DrawPaddle {
+class DrawPaddle extends Canvas{
+    constructor () {
+        super();
+        this._width = 100;
+        this._height = 20;
+        this._x = (this.canvas.width - this.width) / 2;
+        this.leftMove = false;
+        this.rightMove = false;
+    }
+    // width getter setter
+    get width () {
+        return this._width;
+    }
+    set width (value) {
+        this._width = value;
+        this.drawPaddle();
+    }
+    // height getter setter
+    get height () {
+        return this._height;
+    }
+    set height (value) {
+        this._height = value;
+        this.drawPaddle();
+    }
+    // x getter setter
+    get x () {
+        return this._x;
+    }
+    set x (value) {
+        this._x = value;
+        this.drawPaddle();
+    }
 
+    // drawPaddle
+    drawPaddle () {
+        this.ctx.beginPath();
+        this.ctx.rect(this._x, (this.canvas.height - this._height), this._width ,this._height);
+        this.ctx.fillStyle ="#61105e";
+        this.ctx.fill();
+        this.ctx.closePath();
+    }
+    
+    keyEvent () {
+        document.addEventListener("keydown", (e) => {
+            if(e.keyCode == 39){
+                this.rightMove = true;
+              }
+              else if(e.keyCode == 37){
+                this.leftMove = true;
+              }
+        });
+        document.addEventListener("keyup", (e) => {
+            if(e.keyCode == 39){
+                this.rightMove = false;
+              }
+              else if(e.keyCode == 37){
+                this.leftMove = false;
+              }
+        });
+    }
+    mouseEvent () {
+        document.addEventListener('mousemove', (e) => {
+            const relativeX = e.clientX - this.canvas.offsetLeft;
+            if(e.target.id === "gameBoard"){
+                if(relativeX > 0 && relativeX < (this.canvas.width - this.width)){
+
+                }
+                this.x = relativeX;
+            }
+        });
+    }
 }
 
 // 점수에 관한 클래스

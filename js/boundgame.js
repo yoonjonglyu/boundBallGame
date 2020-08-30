@@ -1,4 +1,6 @@
 const ball = new DrawBall;
+const paddle = new DrawPaddle;
+let over = false;
 
 function liveBall () {
     const ballSpeedLimit = 5;
@@ -29,18 +31,53 @@ function liveBall () {
     }
     
     // x 반전
-    if(ball.x + ball.moveX > ball.canvas.width - ball.ballRadius || ball.x + ball.moveX < ball.ballRadius){
+    if((ball.x + ball.moveX) > (ball.canvas.width - ball.ballRadius) || (ball.x + ball.moveX) < ball.ballRadius){
         ball.moveX = -ball.moveX + ballRandom;
+        ball.colorIndex++;
     }
     // y 반전
-    if(ball.y + ball.moveY> ball.canvas.height - ball.ballRadius || ball.y + ball.moveY  < ball.ballRadius){
+    if(ball.y + ball.moveY < ball.ballRadius){
         ball.moveY = -ball.moveY + ballRandom;
-    } 
+        ball.colorIndex++;
+    } else if (ball.y + ball.moveY > ball.canvas.height - (ball.ballRadius/ 2)){
+        if((ball.x + ball.ballRadius - 2) > paddle.x && (ball.x - ball.ballRadius + 2) < (paddle.x + paddle.width)){
+            ball.moveY = -ball.moveY + ballRandom;
+        } else {
+            if(over === false){
+                over = true;
+                alert("게임 오버.");
+            }
+
+        }
+
+        ball.colorIndex++;
+    }
 
     ball.x = ball.x + ball.moveX;
     ball.y = ball.y + ball.moveY;
 }
-(function init (){
+
+function getPaddle () {
+    const paddleSpeed = 8;
+    paddle.drawPaddle();
+
+    if(paddle.rightMove && paddle.x < (ball.canvas.width - paddle.width)){
+        paddle.x += paddleSpeed;
+    }
+    else if (paddle.leftMove && paddle.x > 0){
+    paddle.x -= paddleSpeed;
+    }
+}
+
+function draw () {
     liveBall();
-    requestAnimationFrame(init);
+    getPaddle ();
+    requestAnimationFrame(draw);
+}
+
+(function init (){
+    draw ();
+    paddle.keyEvent();
+    paddle.mouseEvent();
+
 })();
