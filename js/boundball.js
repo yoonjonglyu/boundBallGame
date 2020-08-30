@@ -38,6 +38,8 @@ class DrawBall extends Canvas {
           "#ffebb7","#fdffab","#f47c7c"
       ];
       this._colorIndex = 0;
+      this.moveX = 2;
+      this.moveY = 3;
   }
   // x getter setter
   get x () {
