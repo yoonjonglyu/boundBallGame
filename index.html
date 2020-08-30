@@ -11,15 +11,28 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary" >
-      <h1 style="margin: 0 auto;">bound ball</h1>
-    </nav>
-    <div class="jumbotron">
-      <canvas class="navbar-light bg-light"></canvas>
-    </div>
-
+    <header class="navbar navbar-expand-lg navbar-dark bg-primary" >
+      <h1 class="margin-center">BoundBall</h1>
+    </header>
+    <main role="main">
+      <div class="jumbotron">
+        <canvas id="gameBoard"class="navbar-light bg-light margin-center"></canvas>
+        <p>
+          1. 튀길공(다양성확보), 받아칠 상자,
+          2. 스테이지에 따른 난이도 변화
+          3. 아이템
+          4. 성적
+          5. 저장
+          6. oop 클래스타입
+        </p>
+      </div>
+    </main>
+    <footer>
+      <copyright>ISA(류윤종) ALL RIGHTS RESERVED.</copyright>
+    </footer>
     <!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
     <script src="js/bootstrap.min.js"></script>
     <script src="js/boundball.js"></script>
+    <script src="js/boundgame.js"></script>
   </body>
 </html>

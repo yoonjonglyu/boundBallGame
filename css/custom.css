@@ -1,0 +1,16 @@
+/*!
+ * custom.css
+ * Copyright 2020.06.04 feat -Isa
+*/
+
+/* interface */
+
+.margin-center {display: block; margin: 0 auto;}
+
+/* content */
+
+canvas {width: 90%;}
+
+/* footer */
+
+footer {margin: 0 0 20px 0; text-align: center;}
