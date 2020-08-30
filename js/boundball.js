@@ -10,7 +10,7 @@
  * @constructor canvas, ctx
  */
 class Canvas {
-    constructor(canvas, ctx){
+    constructor(){
         this.canvas = document.querySelector('#gameBoard');
         this.ctx = this.canvas.getContext('2d');
     }
@@ -27,22 +27,56 @@ class Canvas {
  * @constructor x, y, ballRadius, color, colorIndex
  */
 class DrawBall extends Canvas {
-  constructor(x, y, ballRadius, color, colorIndex){
+  constructor(){
       super();
-      this.x = this.canvas.width / 2;
-      this.y = this.canvas.height - 30;
-      this.ballRadius = 13;
+      this._x = this.canvas.width / 2;
+      this._y = this.canvas.height - 30;
+      this._ballRadius = 13;
       this.color = [
           "red","blue","green","lightblue","darkblue","#6a2c70","#e23e57",
           "#3490de","#ffd460","#edb1f1","#cabbe9","#62d2a2","#fc5c9c",
           "#ffebb7","#fdffab","#f47c7c"
       ];
-      this.colorIndex = 0;
+      this._colorIndex = 0;
+  }
+  // x getter setter
+  get x () {
+      return this._x;
+  }
+  set x (value){
+      this._x = value;
+      this.drawBall();
+  }
+  // y getter setter
+  get y () {
+      return this._y;
+  }
+  set y (value) {
+      this._y = value;
+      this.drawBall();
+  }
+  // ball radius getter setter
+  get ballRadius () {
+      return this._ballRadius;
+  }
+  set ballRadius (value) {
+      this._ballRadius = value;
+      this.drawBall();
+  }
+  // color index getter setter
+  get colorIndex () {
+      return this._colorIndex;
+  }
+  set colorIndex (value) {
+      this._colorIndex = value;
+      this.drawBall();
   }
 
+  // draw ball
   drawBall () {
+    this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
     this.ctx.beginPath();
-    this.ctx.arc(this.x,this.y,this.ballRadius,0,Math.PI*2);
+    this.ctx.arc(this._x, this._y, this._ballRadius, 0, Math.PI*2);
     this.ctx.fillStyle = this.color[this.colorIndex];
     this.ctx.fill();
     this.ctx.closePath();
