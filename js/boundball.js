@@ -97,8 +97,67 @@ class DrawBall extends Canvas {
   }
 }
 // 벽돌에 관한 클래스
-class DrawBrick {
+class DrawBrick extends Canvas{
+    constructor () {
+        super();
+        this.padding = 15;
+        this._x = 0;
+        this._y = 0;
+        this._width = 0;
+        this._height = 0;
+        this.color = [
+            "red","blue","green","lightblue","darkblue","#6a2c70","#e23e57",
+            "#3490de","#ffd460","#edb1f1","#cabbe9","#62d2a2","#fc5c9c",
+            "#ffebb7","#fdffab","#f47c7c"
+        ];
+        this._colorIndex = 0;
+    }
+    // x getter setter
+    get x () {
+        return this._x;
+    }
+    set x (value) {
+        this._X = value;
+    }
+    // y getter setter
+    get y () {
+        return this._y;
+    }
+    set y (value) {
+        this._y = value;
+    }
+    // width getter setter
+    get width () {
+        return this._width;
+    }
+    set width (value) {
+        this._width = value;
+    }
+    // height getter setter
+    get height () {
+        return this._height;
+    }
+    set height (value) {
+        this._height = value;
+    }
+    // colorIndex getter setter
+    get colorIndex () {
+        return this._colorIndex;
+    }
+    set colorIndex (value) {
+        this._colorIndex = value;
+    }
 
+    // draw Bricks
+    drawBricks () {
+        this.ctx.beginPath();
+        this.ctx.rect(this.x,this.y,this.width,this.height);
+        this.ctx.fillStyle = "#eaeaea";
+        this.ctx.strokeStyle = this.color[this.colorIndex];
+        this.ctx.fill();
+        this.ctx.stroke();
+        this.ctx.closePath();
+    }
 }
 
 // 패들에 관한 클래스
