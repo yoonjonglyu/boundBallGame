@@ -1,9 +1,10 @@
 const ball = new DrawBall;
 const paddle = new DrawPaddle;
+const brick = new DrawBrick;
 let over = false;
 
 function liveBall () {
-    const ballSpeedLimit = 5;
+    const ballSpeedLimit = 8;
     const ballRandom = Math.random() * (Math.random() * ballSpeedLimit) ;
     
     // ball 변화 주기
@@ -53,8 +54,8 @@ function liveBall () {
         ball.colorIndex++;
     }
 
-    ball.x = ball.x + ball.moveX;
-    ball.y = ball.y + ball.moveY;
+    ball.x += ball.moveX;
+    ball.y += ball.moveY;
 }
 
 function getPaddle () {
@@ -69,15 +70,55 @@ function getPaddle () {
     }
 }
 
+function getBrick () {
+    for(let c = 0; c < brick.column; c++){
+        brick.box[c] = [];
+        for(let r = 0; r < brick.row; r++){
+          brick.box[c][r] = {x: 0 ,y: 0, status: 1};
+        }
+    }
+}
+
+function drawBirck () {
+    for(let c = 0; c < brick.column; c++){
+        for(let r = 0; r < brick.row; r++){
+            if(brick.box[c][r].status === 1){
+                brick.x = (c * (brick.width + brick.padding)) + brick.offsetX;
+                brick.y = (r * (brick.height + brick.padding)) + brick.offsetY;
+                brick.box[c][r].x = brick.x;
+                brick.box[c][r].y = brick.y;
+
+                brick.drawBricks();
+            }
+        }
+    }
+}
+function crashBrick () {
+        for(let c = 0; c < brick.column; c++) {
+            for(let r = 0; r < brick.row; r++) {
+                const state = brick.box[c][r];
+                if(state.status === 1) {
+                    if(ball.x > state.x && ball.x < (state.x + brick.width) && ball.y > state.y && ball.y < (state.y + brick.height)) {
+                        ball.moveY = -ball.moveY;
+                        brick.colorIndex++;
+                        state.status = 0;
+                    }
+                }
+            }
+        }
+}
+
 function draw () {
     liveBall();
     getPaddle ();
+    drawBirck();
+    crashBrick ();
     requestAnimationFrame(draw);
 }
 
 (function init (){
-    draw ();
     paddle.keyEvent();
     paddle.mouseEvent();
-
+    getBrick();
+    draw ();
 })();

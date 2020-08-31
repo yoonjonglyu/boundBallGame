@@ -37,9 +37,9 @@ class Canvas {
 class DrawBall extends Canvas {
   constructor () {
       super();
-      this._x = this.canvas.width / 2;
-      this._y = this.canvas.height - 30;
-      this._ballRadius = 13;
+      this._x = (this.canvas.width / 2);
+      this._y = (this.canvas.height - 30);
+      this._ballRadius = (this.canvas.width / 70);
       this.color = [
           "red","blue","green","lightblue","darkblue","#6a2c70","#e23e57",
           "#3490de","#ffd460","#edb1f1","#cabbe9","#62d2a2","#fc5c9c",
@@ -100,11 +100,16 @@ class DrawBall extends Canvas {
 class DrawBrick extends Canvas{
     constructor () {
         super();
-        this.padding = 15;
+        this._box = [];
+        this.padding = ((this.canvas.width + this.canvas.height) / 100);
+        this._row = 5;
+        this._column = 6;
         this._x = 0;
         this._y = 0;
-        this._width = 0;
-        this._height = 0;
+        this._width = (this.canvas.width / 8);
+        this._height = (this.canvas.height / 17);
+        this._offsetX = ((this.canvas.width  - ((this._width + this.padding) * this._column)) / 2);
+        this._offsetY = ((this.canvas.height  - ((this._height + this.padding) * this._row)) / 10);
         this.color = [
             "red","blue","green","lightblue","darkblue","#6a2c70","#e23e57",
             "#3490de","#ffd460","#edb1f1","#cabbe9","#62d2a2","#fc5c9c",
@@ -112,12 +117,19 @@ class DrawBrick extends Canvas{
         ];
         this._colorIndex = 0;
     }
+    // box getter setter
+    get box () {
+        return this._box;
+    }
+    set box (value) {
+        this._box = value;
+    }
     // x getter setter
     get x () {
         return this._x;
     }
     set x (value) {
-        this._X = value;
+        this._x = value;
     }
     // y getter setter
     get y () {
@@ -145,7 +157,39 @@ class DrawBrick extends Canvas{
         return this._colorIndex;
     }
     set colorIndex (value) {
-        this._colorIndex = value;
+        if(this.color.length > value){
+            this._colorIndex = value;
+        } else {
+            this._colorIndex = 0;
+        }
+    }
+    // offsetX getter setter
+    get offsetX () {
+        return this._offsetX;
+    }
+    set offsetX (value) {
+        this._offsetX = value;
+    }
+    // offsetY getter setter
+    get offsetY () {
+        return this._offsetY;
+    }
+    set offsetY (value) {
+        this._offsetY = value;
+    }
+    // row getter setter
+    get row () {
+        return this._row;
+    }
+    set row (value) {
+        this._row = value;
+    }
+    // column getter setter
+    get column () {
+        return this._column;
+    }
+    set column (value) {
+        this._column = value;
     }
 
     // draw Bricks
@@ -164,9 +208,9 @@ class DrawBrick extends Canvas{
 class DrawPaddle extends Canvas{
     constructor () {
         super();
-        this._width = this.canvas.width / 8;
-        this._height = this.canvas.height / 20;
-        this._x = (this.canvas.width - this.width) / 2;
+        this._width = (this.canvas.width / 8);
+        this._height = (this.canvas.height / 20);
+        this._x = ((this.canvas.width - this.width) / 2);
         this.leftMove = false;
         this.rightMove = false;
     }
