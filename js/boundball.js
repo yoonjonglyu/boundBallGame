@@ -167,10 +167,9 @@ class DrawPaddle extends Canvas{
         document.addEventListener('mousemove', (e) => {
             const relativeX = e.clientX - this.canvas.offsetLeft;
             if(e.target.id === "gameBoard"){
-                if(relativeX > 0 && relativeX < (this.canvas.width - this.width)){
-
+                if(relativeX > 0 && relativeX < this.canvas.width){
+                    this.x = relativeX - (this.width / 2);
                 }
-                this.x = relativeX;
             }
         });
     }
