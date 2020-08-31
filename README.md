@@ -2,7 +2,7 @@
 > pure javaScript & Canvas Web game.
 
 ## page
-[boundBallGame](https://yoonjonglyu.github.io/boundBallGame/, "boundBallGame link")
+- [boundBallGame](https://yoonjonglyu.github.io/boundBallGame/ "boundBallGame link")
 
 ## 목적
 > 부트스트랩으로 UI를 잡고 바닐라 oop로 모델링을 잡아서 만든 클라이언트 사이드 공튀기기 게임.
