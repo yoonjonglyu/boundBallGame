@@ -171,8 +171,8 @@ function drawScore () {
  */
 function draw () {
     liveBall();
-    getPaddle ();
-    checkBrick ()
+    getPaddle();
+    checkBrick()
     drawBrick();
     crashBrick();
     requestAnimationFrame(draw);
