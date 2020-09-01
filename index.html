@@ -18,6 +18,9 @@
       <div class="jumbotron">
         <h4 class="margin-center" style ="width: 90%;"><span id="score" class="score"></span><span id="life" class="life"></span></h4>
         <canvas id="gameBoard"class="navbar-light bg-light margin-center"></canvas>
+        <br />
+        <button type="button" id="ranks" class="btn btn-info margin-center">ViewRanks</button>
+        <br />
         <p>
           1. 튀길공(다양성확보), 받아칠 상자,
           2. 스테이지에 따른 난이도 변화
@@ -27,7 +30,7 @@
           6. oop 클래스타입
         </p>
       </div>
-      <div class="modal">
+      <div id="ranksModal" class="modal">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
