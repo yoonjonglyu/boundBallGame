@@ -2,7 +2,6 @@ const ball = new DrawBall;
 const paddle = new DrawPaddle;
 const brick = new DrawBrick;
 const score = new DrawScore;
-let canvasRender = false;
 
 /**
  * @function liveBall
@@ -90,7 +89,7 @@ function checkGameOver (ballRandom) {
                 score.ranks = `${userName} ${score.score}`;
             }
 
-            canvasRender = false;
+            paddle.canvasRender = false;
             score.initGame();
         } else {
             score.life--;
@@ -178,7 +177,7 @@ function draw () {
     drawBrick();
     crashBrick();
 
-    if(canvasRender === true){
+    if(paddle.canvasRender === true){
         requestAnimationFrame(draw);
     } else {
         readyGame();
@@ -199,7 +198,7 @@ function readyGame () {
 
         getBrick();
         getScore();
-        canvasRender = true;
+        paddle.canvasRender = true;
         requestAnimationFrame(draw); 
     };
     

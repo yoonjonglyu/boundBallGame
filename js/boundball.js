@@ -7,7 +7,7 @@
 /**
  * @class Canvas
  * @description 캔버스 기본 설정 셋팅하기
- * @constructor canvas, ctx
+ * @constructor canvas, ctx, canvasRender
  */
 class Canvas {
     constructor () {
@@ -17,8 +17,17 @@ class Canvas {
         this.canvas.width = this.canvasWidth;
         this.canvas.height = this.canvasHeight;
         this.ctx = this.canvas.getContext('2d');
+        this._canvasRender = false;
     }
-
+    // canvasRender getter setter
+    get canvasRender () {
+        return this._canvasRender;
+    }
+    set canvasRender (value){
+        if(typeof value === "boolean"){
+            this._canvasRender = value;
+        }
+    }
     setCanvas (target) {
         this.canvas = document.querySelector(target);
         this.ctx = this.canvas.getContext('2d');
@@ -287,7 +296,7 @@ class DrawPaddle extends Canvas{
     mouseEvent () {
         document.addEventListener("mousemove", (e) => {
             const relativeX = e.clientX - this.canvas.offsetLeft;
-            if(e.target.id === "gameBoard"){
+            if(e.target.id === "gameBoard" && this.canvasRender === true){
                 if(relativeX > 0 && relativeX < this.canvas.width){
                     this.x = relativeX - (this.width / 2);
                 }
