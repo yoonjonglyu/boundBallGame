@@ -193,12 +193,10 @@ function readyGame () {
 
     const readyEvent = (e) => {
         score.canvas.removeEventListener("click", readyEvent);
-        paddle.keyEvent();
-        paddle.mouseEvent();
 
+        paddle.canvasRender = true;
         getBrick();
         getScore();
-        paddle.canvasRender = true;
         requestAnimationFrame(draw); 
     };
     
@@ -209,6 +207,8 @@ function readyGame () {
  * @description 즉시 실행함수 이벤트 리스닝 등 1회성 함수들과 draw 함수의 실행을 담당한다
  */
 (function init (){
+    paddle.keyEvent();
+    paddle.mouseEvent();
     score.RanksEvent();
     readyGame();
 })();
