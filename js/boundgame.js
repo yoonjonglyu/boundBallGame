@@ -1,6 +1,7 @@
 const ball = new DrawBall;
 const paddle = new DrawPaddle;
 const brick = new DrawBrick;
+const score = new DrawScore;
 let over = false;
 
 /**
@@ -72,15 +73,21 @@ function getPaddle () {
  * @param {Float} ballRandom 
  */
 function checkGameOver (ballRandom) {
+    const init = () => {
+        ball.initBall();
+        paddle.initPaddle();
+    };
     if((ball.x + ball.ballRadius - 2) > paddle.x && (ball.x - ball.ballRadius + 2) < (paddle.x + paddle.width)){
         ball.moveY = -ball.moveY + ballRandom;
     } else {
-        if(over === false){
-            over = true;
+        if((score.life - 1) < 0){
             alert("게임 오버.");
-            location.reload();
+            getBrick();
+            score.initGame();
+        } else {
+            score.life--;
         }
-
+        init();
     }
 
     ball.colorIndex++;
@@ -134,6 +141,14 @@ function crashBrick () {
     }
 }
 /**
+ * @function drawScore
+ * @description 점수와 기회를 그린다
+ */
+function drawScore () {
+    score.drawScore();
+    score.drawLife();
+}
+/**
  * @function draw
  * @description canvas내용물을 request 애니메이션을 통해서 지속적으로 그린다
  */
@@ -152,5 +167,6 @@ function draw () {
     paddle.keyEvent();
     paddle.mouseEvent();
     getBrick();
-    draw ();
+    drawScore();
+    draw();
 })();

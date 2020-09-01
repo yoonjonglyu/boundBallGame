@@ -95,6 +95,15 @@ class DrawBall extends Canvas {
     this.ctx.fill();
     this.ctx.closePath();
   }
+
+  initBall (){
+    this.x = (this.canvas.width / 2);
+    this.y = (this.canvas.height - 30);
+    this.ballRadius = (this.canvas.width / 70);
+    this.colorIndex = 0;
+    this.moveX = 2;
+    this.moveY = 3;
+  }
 }
 /**
  * @class DrawBrick
@@ -114,7 +123,7 @@ class DrawBrick extends Canvas{
         this._width = (this.canvas.width / 8);
         this._height = (this.canvas.height / 17);
         this._offsetX = ((this.canvas.width  - ((this._width + this.padding) * this._column)) / 2);
-        this._offsetY = ((this.canvas.height  - ((this._height + this.padding) * this._row)) / 10);
+        this._offsetY = ((this.canvas.height  - ((this._height + this.padding) * this._row)) / 6);
         this.color = [
             "red","blue","green","lightblue","darkblue","#6a2c70","#e23e57",
             "#3490de","#ffd460","#edb1f1","#cabbe9","#62d2a2","#fc5c9c",
@@ -276,7 +285,7 @@ class DrawPaddle extends Canvas{
         });
     }
     mouseEvent () {
-        document.addEventListener('mousemove', (e) => {
+        document.addEventListener("mousemove", (e) => {
             const relativeX = e.clientX - this.canvas.offsetLeft;
             if(e.target.id === "gameBoard"){
                 if(relativeX > 0 && relativeX < this.canvas.width){
@@ -285,11 +294,52 @@ class DrawPaddle extends Canvas{
             }
         });
     }
+
+    initPaddle () {
+        this.width = (this.canvas.width / 8);
+        this.height = (this.canvas.height / 20);
+        this.x = ((this.canvas.width - this.width) / 2);
+    }
 }
 
 // 점수에 관한 클래스
-class DrawScore {
+class DrawScore extends Canvas{
+    constructor () {
+        super();
+        this._score = 0;
+        this._life = 3;
+        this.scoreElement = document.querySelector('#score');
+        this.lifeElement = document.querySelector('#life');
+    }
+    // score getter setter
+    get score () {
+        return this._score;
+    }
+    set score (value) {
+        this._score = value;
+        this.drawScore();
+    }
+    // lift getter setter
+    get life () {
+        return this._life;
+    }
+    set life (value) {
+        this._life = value;
+        this.drawLife();
+    }
 
+    // drawScore
+    drawScore () {
+        this.scoreElement.innerText = `점수 : ${this.score}`;
+    }
+    // drawLife
+    drawLife () {
+        this.lifeElement.innerText = `기회 : ${this.life}`;
+    }
+    initGame () {
+        this.score = 0;
+        this.life = 3;
+    }
 }
 
 // 아이템에 관한 클래스
