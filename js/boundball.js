@@ -366,7 +366,7 @@ class DrawScore extends Canvas{
             for(let int = 0; int < this.ranks.length; int++){
                 const state = this.ranks[int];
                 const ranks = document.createElement('h4');
-                ranks.innerText = `이름 : ${state.name} 점수 : ${state.score}`;
+                ranks.innerHTML = `<span>@@이름 : ${state.name},</span><span style="color: red">@@점수 : ${state.score}</span>`;
     
                 ranksBody.appendChild(ranks);
             }
