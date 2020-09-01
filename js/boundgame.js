@@ -135,9 +135,21 @@ function crashBrick () {
                     ball.moveY = -ball.moveY;
                     brick.colorIndex++;
                     state.status = 0;
+                    score.score++;
                 }
             }
         }
+    }
+}
+/**
+ * @function checkBrick
+ * @description 남은 벽돌이 있는지 검사하고 없을 시 새로 벽돌을 생성해준다.
+ */
+async function checkBrick () {
+    let check = brick.box;
+    check = await (check.map((array) => array.filter((obj) => obj.status === 1))).filter((array) => array.length > 0);
+    if(check.length === 0){
+        getBrick();
     }
 }
 /**
@@ -155,8 +167,9 @@ function drawScore () {
 function draw () {
     liveBall();
     getPaddle ();
+    checkBrick ()
     drawBrick();
-    crashBrick ();
+    crashBrick();
     requestAnimationFrame(draw);
 }
 /**
