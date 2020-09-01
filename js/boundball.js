@@ -96,7 +96,12 @@ class DrawBall extends Canvas {
     this.ctx.closePath();
   }
 }
-// 벽돌에 관한 클래스
+/**
+ * @class DrawBrick
+ * @extends Canvas
+ * @description 캔버스 2d 벽돌 그리기
+ * @constructor box, padding, row, column, x, y, width, height, offsetX, offsetY, color, colorIndex
+ */
 class DrawBrick extends Canvas{
     constructor () {
         super();
@@ -203,8 +208,12 @@ class DrawBrick extends Canvas{
         this.ctx.closePath();
     }
 }
-
-// 패들에 관한 클래스
+/**
+ * @class DrawPaddle
+ * @extends Canvas
+ * @description 캔버스 2d 채 만들기
+ * @constructor width, height, x, leftMove, rightMove
+ */
 class DrawPaddle extends Canvas{
     constructor () {
         super();
