@@ -310,6 +310,7 @@ class DrawScore extends Canvas{
         this._life = 3;
         this.scoreElement = document.querySelector('#score');
         this.lifeElement = document.querySelector('#life');
+        this._ranks = JSON.parse(localStorage.getItem('boundBallRanks')) !== null ? JSON.parse(localStorage.getItem('boundBallRanks')) : [];
     }
     // score getter setter
     get score () {
@@ -327,6 +328,20 @@ class DrawScore extends Canvas{
         this._life = value;
         this.drawLife();
     }
+    // ranks getter setter
+    get ranks () {
+        return this._ranks;
+    }
+    set ranks (value) {
+        const state = value.split(' ');
+        const ranks = {
+            name : state[0],
+            score : state[1]
+        };
+
+        this._ranks.push(ranks);
+        localStorage.setItem('boundBallRanks', JSON.stringify(this.ranks));
+    }
 
     // drawScore
     drawScore () {
@@ -335,6 +350,34 @@ class DrawScore extends Canvas{
     // drawLife
     drawLife () {
         this.lifeElement.innerText = `기회 : ${this.life}`;
+    }
+
+
+    RanksEvent () {
+        const ranksModal = document.querySelector('#ranksModal');
+        const ranksButton = document.querySelector('#ranks');
+        const ranksBody = document.querySelector('#ranksBody');
+
+        ranksButton.addEventListener('click', (e) => {
+            const view = ranksBody.querySelectorAll('h4');
+            if(view.length > 0){
+                view.forEach((dom) => dom.remove());
+            }
+            for(let int = 0; int < this.ranks.length; int++){
+                const state = this.ranks[int];
+                const ranks = document.createElement('h4');
+                ranks.innerText = `이름 : ${state.name} 점수 : ${state.score}`;
+    
+                ranksBody.appendChild(ranks);
+            }
+            
+            ranksModal.style.display = "block";
+        });
+        ranksModal.addEventListener('click', (e) => {
+            if(e.target.dataset.dismiss === "modal" || e.target.parentElement.dataset.dismiss === "modal"){
+                ranksModal.style.display = "none";
+            }
+        });
     }
     initGame () {
         this.score = 0;
