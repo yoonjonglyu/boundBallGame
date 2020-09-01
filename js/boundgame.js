@@ -2,7 +2,7 @@ const ball = new DrawBall;
 const paddle = new DrawPaddle;
 const brick = new DrawBrick;
 const score = new DrawScore;
-let over = false;
+let canvasRender = false;
 
 /**
  * @function liveBall
@@ -80,19 +80,21 @@ function checkGameOver (ballRandom) {
     if((ball.x + ball.ballRadius - 2) > paddle.x && (ball.x - ball.ballRadius + 2) < (paddle.x + paddle.width)){
         ball.moveY = -ball.moveY + ballRandom;
     } else {
-        if((score.life - 1) < 0){
+        init();
+        
+        if((score.life - 1) < 0){  
             alert("게임 오버.");
             let userName = prompt('랭킹에 등록할 이름을 입력해주세요. \n공백은 포함되지 않습니다.', 'ex : 김막걸리');
             if(userName !== null){
                 userName = userName.split(' ').join('');
                 score.ranks = `${userName} ${score.score}`;
             }
-            getBrick();
+
+            canvasRender = false;
             score.initGame();
         } else {
             score.life--;
         }
-        init();
     }
 
     ball.colorIndex++;
@@ -158,12 +160,12 @@ async function checkBrick () {
     }
 }
 /**
- * @function drawScore
+ * @function getScore
  * @description 점수와 기회를 그린다
  */
-function drawScore () {
-    score.drawScore();
-    score.drawLife();
+function getScore () {
+    score.getScore();
+    score.getLife();
 }
 /**
  * @function draw
@@ -175,17 +177,39 @@ function draw () {
     checkBrick()
     drawBrick();
     crashBrick();
-    requestAnimationFrame(draw);
+
+    if(canvasRender === true){
+        requestAnimationFrame(draw);
+    } else {
+        readyGame();
+    }
+}
+/** 
+ * @function readyGame
+ * @description 게임 시작 전 대기화면 및 게임 시작 이벤트를 관리한다.
+ */
+function readyGame () {
+    score.clearCanvas();
+    score.drawReady();
+
+    const readyEvent = (e) => {
+        score.canvas.removeEventListener("click", readyEvent);
+        paddle.keyEvent();
+        paddle.mouseEvent();
+
+        getBrick();
+        getScore();
+        canvasRender = true;
+        requestAnimationFrame(draw); 
+    };
+    
+    score.canvas.addEventListener("click", readyEvent);
 }
 /**
  * @function init
  * @description 즉시 실행함수 이벤트 리스닝 등 1회성 함수들과 draw 함수의 실행을 담당한다
  */
 (function init (){
-    paddle.keyEvent();
-    paddle.mouseEvent();
     score.RanksEvent();
-    getBrick();
-    drawScore();
-    draw();
+    readyGame();
 })();

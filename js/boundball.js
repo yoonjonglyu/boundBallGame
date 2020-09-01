@@ -318,7 +318,7 @@ class DrawScore extends Canvas{
     }
     set score (value) {
         this._score = value;
-        this.drawScore();
+        this.getScore();
     }
     // lift getter setter
     get life () {
@@ -326,7 +326,7 @@ class DrawScore extends Canvas{
     }
     set life (value) {
         this._life = value;
-        this.drawLife();
+        this.getLife();
     }
     // ranks getter setter
     get ranks () {
@@ -343,12 +343,26 @@ class DrawScore extends Canvas{
         localStorage.setItem('boundBallRanks', JSON.stringify(this.ranks));
     }
 
-    // drawScore
-    drawScore () {
+    // drawReady
+    drawReady () {
+        this.ctx.beginPath();
+        this.ctx.rect(10, 10, (this.canvas.width - 20), (this.canvas.height - 20));
+        this.ctx.fillStyle = "lightblue";
+        this.ctx.strokeStyle = "#eaeaea";
+        this.ctx.fill();
+        this.ctx.stroke();
+        this.ctx.closePath();
+
+        this.ctx.font = "1.5em 나눔고딕";
+        this.ctx.fillStyle = "#ff2e63"
+        this.ctx.fillText("시작하기 CLICK!",((this.canvas.width / 2) - 78), (this.canvas.height / 2));
+    }
+    // getScore
+    getScore () {
         this.scoreElement.innerText = `점수 : ${this.score}`;
     }
-    // drawLife
-    drawLife () {
+    // getLife
+    getLife () {
         this.lifeElement.innerText = `기회 : ${this.life}`;
     }
 
