@@ -8,7 +8,7 @@
 .margin-center {display: block; margin: 0 auto;}
 .score {display: inline-block; width : 60%; text-align: left;}
 .life {display: inline-block; width : 40%; text-align: right;}
-.modal-body {height: 55vw; overflow: scroll;}
+.modal-body {height: 500px; overflow: scroll;}
 
 /* content */
 
