@@ -4,7 +4,7 @@ const brick = new DrawBrick;
 let over = false;
 
 function liveBall () {
-    const ballSpeedLimit = 8;
+    const ballSpeedLimit = ((ball.canvas.width + ball.canvas.height) / 250);
     const ballRandom = Math.random() * (Math.random() * ballSpeedLimit) ;
     
     // ball 변화 주기
@@ -41,17 +41,7 @@ function liveBall () {
         ball.moveY = -ball.moveY + ballRandom;
         ball.colorIndex++;
     } else if (ball.y + ball.moveY > ball.canvas.height - (ball.ballRadius/ 2)){
-        if((ball.x + ball.ballRadius - 2) > paddle.x && (ball.x - ball.ballRadius + 2) < (paddle.x + paddle.width)){
-            ball.moveY = -ball.moveY + ballRandom;
-        } else {
-            if(over === false){
-                over = true;
-                alert("게임 오버.");
-            }
-
-        }
-
-        ball.colorIndex++;
+        checkGameOver(ballRandom); 
     }
 
     ball.x += ball.moveX;
@@ -59,7 +49,7 @@ function liveBall () {
 }
 
 function getPaddle () {
-    const paddleSpeed = 8;
+    const paddleSpeed = (paddle.canvas.width / 110);
     paddle.drawPaddle();
 
     if(paddle.rightMove && paddle.x < (ball.canvas.width - paddle.width)){
@@ -68,6 +58,20 @@ function getPaddle () {
     else if (paddle.leftMove && paddle.x > 0){
     paddle.x -= paddleSpeed;
     }
+}
+function checkGameOver (ballRandom) {
+    if((ball.x + ball.ballRadius - 2) > paddle.x && (ball.x - ball.ballRadius + 2) < (paddle.x + paddle.width)){
+        ball.moveY = -ball.moveY + ballRandom;
+    } else {
+        if(over === false){
+            over = true;
+            alert("게임 오버.");
+            location.reload();
+        }
+
+    }
+
+    ball.colorIndex++;
 }
 
 function getBrick () {
@@ -94,18 +98,18 @@ function drawBirck () {
     }
 }
 function crashBrick () {
-        for(let c = 0; c < brick.column; c++) {
-            for(let r = 0; r < brick.row; r++) {
-                const state = brick.box[c][r];
-                if(state.status === 1) {
-                    if(ball.x > state.x && ball.x < (state.x + brick.width) && ball.y > state.y && ball.y < (state.y + brick.height)) {
-                        ball.moveY = -ball.moveY;
-                        brick.colorIndex++;
-                        state.status = 0;
-                    }
+    for(let c = 0; c < brick.column; c++) {
+        for(let r = 0; r < brick.row; r++) {
+            const state = brick.box[c][r];
+            if(state.status === 1) {
+                if(ball.x > state.x && ball.x < (state.x + brick.width) && ball.y > state.y && ball.y < (state.y + brick.height)) {
+                    ball.moveY = -ball.moveY;
+                    brick.colorIndex++;
+                    state.status = 0;
                 }
             }
         }
+    }
 }
 
 function draw () {
