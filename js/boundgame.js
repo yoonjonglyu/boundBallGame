@@ -148,7 +148,7 @@ function crashBrick () {
                     ball.moveY = -ball.moveY;
                     brick.colorIndex++;
                     state.status = 0;
-                    userRank.score++;
+                    userRank.score += (1 + stage.stageLevel);
                 }
             }
         }
