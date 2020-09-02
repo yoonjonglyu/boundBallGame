@@ -373,14 +373,20 @@ class UserRanks extends Canvas{
         const ranksBody = document.querySelector('#ranksBody');
 
         ranksButton.addEventListener('click', (e) => {
-            const view = ranksBody.querySelectorAll('h4');
+            const view = ranksBody.querySelectorAll('tr');
             if(view.length > 0){
                 view.forEach((dom) => dom.remove());
             }
             for(let int = 0; int < this.ranks.length; int++){
                 const state = this.ranks[int];
-                const ranks = document.createElement('h4');
-                ranks.innerHTML = `<span>@@이름 : ${state.name},</span><span style="color: red">@@점수 : ${state.score}</span>`;
+                
+                const ranks = document.createElement('tr');
+                if(int % 2 === 0){
+                    ranks.className = "table-secondary";
+                } else {
+                    ranks.className = "table-light";
+                }
+                ranks.innerHTML = `<th scope="row" colspan="2">${state.name} 님</th><td colspan="2">${state.score} 점</td>`;
     
                 ranksBody.appendChild(ranks);
             }
@@ -409,21 +415,30 @@ class MakeItem {
  * @class stageInfo
  * @extends Canvas
  * @description 공튀기기 게임 스테이지 & 난이도
- * @constructor stage, ballSpeed, ballRadius
+ * @constructor stages, stageLevel, ballSpeed, ballRadius
  */
 class stageInfo extends Canvas {
     constructor () {
         super();
-        this._stage = 0;
+        this._stages = [
+            {level : 1, speed : 0, radius : 0}, {level : 2, speed : 1, radius : 1}
+        ];
+        this._stageLevel = 0;
         this._ballSpeed = 0;
         this._ballRadius = 0;
     }
-    // stage getter setter
-    get stage () {
-        return this._stage;
+    // stages getter
+    get stages () {
+        return this._stages;
     }
-    set stage (value) {
-        this._stage = value;
+    // stageLevel getter setter
+    get stageLevel () {
+        return this._stageLevel;
+    }
+    set stageLevel (value) {
+        if(this.stages.length >= value && value > 0){
+            this._stageLevel = value - 1;
+        }
     }
     // ballSpeed getter setter
     get ballSpeed () {
@@ -452,5 +467,38 @@ class stageInfo extends Canvas {
         this.ctx.font = "1.5em 나눔고딕";
         this.ctx.fillStyle = "#ff2e63"
         this.ctx.fillText("시작하기 CLICK!",((this.canvas.width / 2) - 78), (this.canvas.height / 2));
+    }
+    
+    stageEvent () {
+        const stageModal = document.querySelector('#stagesModal');
+        const stageButton = document.querySelector('#stages');
+        const stageBody = document.querySelector('#stagesBody');
+
+        stageButton.addEventListener('click', (e) => {
+            const views = stageBody.querySelectorAll('tr');
+            if(views.length > 0){
+                views.forEach((dom) => dom.remove());
+            }
+            for(let int = 0; int < this.stages.length; int++){
+                const state = this.stages[int];
+
+                const stage = document.createElement('tr');
+                stage.className = "table-info";
+
+                stage.innerHTML = `<th scope="row" colspan="3" data-level="${state.level}" >Stage : ${state.level} 레벨`;
+
+                stageBody.appendChild(stage);
+            }
+            
+            stageModal.style.display = "block";
+        });
+
+        stageModal.addEventListener('click', (e) => {
+            if(e.target.dataset.dismiss === "modal" || e.target.parentElement.dataset.dismiss === "modal"){
+                stageModal.style.display = "none";
+            } else if (e.target.dataset.level){
+                this.stageLevel = e.target.dataset.level;
+            }
+        });
     }
 }

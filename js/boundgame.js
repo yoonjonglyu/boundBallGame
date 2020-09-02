@@ -218,5 +218,6 @@ function getStage () {
     paddle.keyEvent();
     paddle.mouseEvent();
     userRank.RanksEvent();
+    stage.stageEvent();
     readyGame();
 })();
