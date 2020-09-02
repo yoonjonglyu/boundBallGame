@@ -6,6 +6,7 @@
 /* interface */
 
 .margin-center {display: block; margin: 0 auto;}
+.width-90 {width: 90%;}
 .score {display: inline-block; width : 60%; text-align: left;}
 .life {display: inline-block; width : 40%; text-align: right;}
 .modal-body {height: 500px; overflow: scroll;}
@@ -13,6 +14,9 @@
 /* content */
 
 canvas {width: 90%;}
+
+.button-list {height: 40px; padding: 0; text-align: right; list-style: none;}
+.button-list li {display:inline-block;  margin: 0 0 0 8px;}
 
 /* footer */
 
