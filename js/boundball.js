@@ -463,10 +463,14 @@ class stageInfo extends Canvas {
         this.ctx.strokeStyle = "#eaeaea";
         this.ctx.fill();
         this.ctx.stroke();
-        this.ctx.closePath();  
+        this.ctx.closePath();
+          
         this.ctx.font = "1.5em 나눔고딕";
         this.ctx.fillStyle = "#ff2e63"
         this.ctx.fillText("시작하기 CLICK!",((this.canvas.width / 2) - 78), (this.canvas.height / 2));
+        this.ctx.font = "1em 나눔고딕";
+        this.ctx.fillStyle = "#ff2e63"
+        this.ctx.fillText("↓↓ 스테이지, 아이템, 랭킹 ↓↓",((this.canvas.width / 2) - 98), ((this.canvas.height / 2) + 48));
     }
     
     stageEvent () {
