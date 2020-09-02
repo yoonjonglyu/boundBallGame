@@ -1,7 +1,7 @@
 const ball = new DrawBall;
 const paddle = new DrawPaddle;
 const brick = new DrawBrick;
-const score = new DrawScore;
+const userRank = new UserRanks;
 
 /**
  * @function liveBall
@@ -81,18 +81,18 @@ function checkGameOver (ballRandom) {
     } else {
         init();
         
-        if((score.life - 1) < 0){  
+        if((userRank.life - 1) < 0){  
             alert("게임 오버.");
             let userName = prompt('랭킹에 등록할 이름을 입력해주세요. \n공백은 포함되지 않습니다.', 'ex : 김막걸리');
             if(userName !== null){
                 userName = userName.split(' ').join('');
-                score.ranks = `${userName} ${score.score}`;
+                userRank.ranks = `${userName} ${score.score}`;
             }
 
             paddle.canvasRender = false;
-            score.initGame();
+            userRank.initGame();
         } else {
-            score.life--;
+            userRank.life--;
         }
     }
 
@@ -141,7 +141,7 @@ function crashBrick () {
                     ball.moveY = -ball.moveY;
                     brick.colorIndex++;
                     state.status = 0;
-                    score.score++;
+                    userRank.score++;
                 }
             }
         }
@@ -163,8 +163,8 @@ async function checkBrick () {
  * @description 점수와 기회를 그린다
  */
 function getScore () {
-    score.getScore();
-    score.getLife();
+    userRank.getScore();
+    userRank.getLife();
 }
 /**
  * @function draw
@@ -188,11 +188,11 @@ function draw () {
  * @description 게임 시작 전 대기화면 및 게임 시작 이벤트를 관리한다.
  */
 function readyGame () {
-    score.clearCanvas();
-    score.drawReady();
+    userRank.clearCanvas();
+    userRank.drawReady();
 
     const readyEvent = (e) => {
-        score.canvas.removeEventListener("click", readyEvent);
+        userRank.canvas.removeEventListener("click", readyEvent);
 
         paddle.canvasRender = true;
         getBrick();
@@ -200,7 +200,7 @@ function readyGame () {
         requestAnimationFrame(draw); 
     };
     
-    score.canvas.addEventListener("click", readyEvent);
+    userRank.canvas.addEventListener("click", readyEvent);
 }
 /**
  * @function init
@@ -209,6 +209,6 @@ function readyGame () {
 (function init (){
     paddle.keyEvent();
     paddle.mouseEvent();
-    score.RanksEvent();
+    userRank.RanksEvent();
     readyGame();
 })();

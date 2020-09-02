@@ -311,8 +311,13 @@ class DrawPaddle extends Canvas{
     }
 }
 
-// 점수에 관한 클래스
-class DrawScore extends Canvas{
+/**
+ * @class UserRanks
+ * @extends Canvas
+ * @description 공튀기기 게임 랭킹 시스템
+ * @constructor score, life, scoreElement, lifeElement, ranks
+ */
+class UserRanks extends Canvas{
     constructor () {
         super();
         this._score = 0;
