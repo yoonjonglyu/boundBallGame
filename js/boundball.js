@@ -48,6 +48,7 @@ class DrawBall extends Canvas {
       super();
       this._x = (this.canvas.width / 2);
       this._y = (this.canvas.height - 30);
+      this._basicRadius = (this.canvas.width / 70);
       this._ballRadius = (this.canvas.width / 70);
       this.color = [
           "red","blue","green","lightblue","darkblue","#6a2c70","#e23e57",
@@ -81,6 +82,10 @@ class DrawBall extends Canvas {
   set ballRadius (value) {
       this._ballRadius = value;
       this.drawBall();
+  }
+  // basic radius getter
+  get basicRadius () {
+      return this._basicRadius;
   }
   // color index getter setter
   get colorIndex () {
@@ -175,7 +180,7 @@ class DrawBrick extends Canvas{
     set height (value) {
         this._height = value;
     }
-    // colorIndex getter setter
+    // color index getter setter
     get colorIndex () {
         return this._colorIndex;
     }
@@ -266,7 +271,7 @@ class DrawPaddle extends Canvas{
         this.drawPaddle();
     }
 
-    // drawPaddle
+    // draw paddle
     drawPaddle () {
         this.ctx.beginPath();
         this.ctx.rect(this._x, (this.canvas.height - this._height), this._width ,this._height);
@@ -357,11 +362,11 @@ class UserRanks extends Canvas{
         localStorage.setItem('boundBallRanks', JSON.stringify(this.ranks));
     }
 
-    // getScore
+    // get score
     getScore () {
         this.scoreElement.innerText = `점수 : ${this.score}`;
     }
-    // getLife
+    // get life
     getLife () {
         this.lifeElement.innerText = `기회 : ${this.life}`;
     }
@@ -426,28 +431,30 @@ class stageInfo extends Canvas {
         this._stageLevel = 0;
         this._ballSpeed = 0;
         this._ballRadius = 0;
+        this.stageElement = document.querySelector('#stage');
     }
     // stages getter
     get stages () {
         return this._stages;
     }
-    // stageLevel getter setter
+    // stage level getter setter
     get stageLevel () {
         return this._stageLevel;
     }
     set stageLevel (value) {
         if(this.stages.length >= value && value > 0){
             this._stageLevel = value - 1;
+            this.getStage();
         }
     }
-    // ballSpeed getter setter
+    // ball speed getter setter
     get ballSpeed () {
         return this._ballSpeed;
     }
     set ballSpeed (value) {
-        this.ballSpped = value;
+        this._ballSpeed = value;
     }
-    // ballRadius getter setter
+    // ball radius getter setter
     get ballRadius () {
         return this._ballRadius;
     }
@@ -455,7 +462,11 @@ class stageInfo extends Canvas {
         this._ballRadius = value;
     }
 
-    // drawReady
+    // get stage
+    getStage () {
+        this.stageElement.innerText = `스테이지 : ${(this.stageLevel + 1)}`;
+    }
+    // draw ready
     drawReady () {
         this.ctx.beginPath();
         this.ctx.rect(10, 10, (this.canvas.width - 20), (this.canvas.height - 20));
@@ -464,7 +475,7 @@ class stageInfo extends Canvas {
         this.ctx.fill();
         this.ctx.stroke();
         this.ctx.closePath();
-          
+
         this.ctx.font = "1.5em 나눔고딕";
         this.ctx.fillStyle = "#ff2e63"
         this.ctx.fillText("시작하기 CLICK!",((this.canvas.width / 2) - 78), (this.canvas.height / 2));

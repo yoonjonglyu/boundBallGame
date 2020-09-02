@@ -4,14 +4,16 @@ const brick = new DrawBrick;
 const userRank = new UserRanks;
 const stage = new stageInfo;
 
+
 /**
  * @function liveBall
  * @description 공 속도 나 튕김등을 제어하면서 지속적으로 움직이는 공을 그린다
  */
 function liveBall () {
-    const ballSpeedLimit = ((ball.canvas.width + ball.canvas.height) / 250);
-    const ballRandom = Math.random() * (Math.random() * ballSpeedLimit) ;
-    
+    const ballSpeedLimit = (((ball.canvas.width + ball.canvas.height) / 250) + stage.ballSpeed);
+    const ballRandom = Math.random() * (Math.random() * ballSpeedLimit);
+    ball.ballRadius = (ball.basicRadius - stage.ballRadius);
+
     // ball 변화 주기
     if(ball.moveX > 0 && ball.moveX < ballSpeedLimit){
         ball.moveX = ball.moveX + ballRandom;
@@ -99,6 +101,8 @@ function checkGameOver (ballRandom) {
 
     ball.colorIndex++;
 }
+
+
 /**
  * @function getBrick
  * @description 벽돌 규격에 맞게 벽돌 2차원 배열을 생성한다
@@ -129,6 +133,8 @@ function drawBrick () {
         }
     }
 }
+
+
 /**
  * @function crashBrick
  * @description 공과 벽돌사이의 충돌을 감지하고 충돌 이벤트를 발생 시킨다
@@ -159,19 +165,14 @@ async function checkBrick () {
         getBrick();
     }
 }
-/**
- * @function getScore
- * @description 점수와 기회를 그린다
- */
-function getScore () {
-    userRank.getScore();
-    userRank.getLife();
-}
+
+
 /**
  * @function draw
  * @description canvas내용물을 request 애니메이션을 통해서 지속적으로 그린다
  */
 function draw () {
+    setStage();
     liveBall();
     getPaddle();
     checkBrick()
@@ -191,25 +192,47 @@ function draw () {
 function readyGame () {
     stage.clearCanvas();
     stage.drawReady();
+    getStage();
+    getScore();
+    getBrick();
 
     const readyEvent = (e) => {
         stage.canvas.removeEventListener("click", readyEvent);
 
         paddle.canvasRender = true;
-        getBrick();
-        getScore();
         requestAnimationFrame(draw); 
     };
     
     stage.canvas.addEventListener("click", readyEvent);
 }
+
+
+/**
+ * @function getScore
+ * @description 점수와 기회를 그린다
+ */
+function getScore () {
+    userRank.getScore();
+    userRank.getLife();
+}
 /**
  * @function getStage
- * @description 스테이지 
+ * @description 스테이지 정보 가져오기
  */
 function getStage () {
-
+    stage.getStage();
 }
+/**
+ * @function setStage
+ * @description 게임에 스테이지 난이도 적용하기
+ */
+function setStage () {
+    const stageData = stage.stages[stage.stageLevel];
+    stage.ballSpeed = stageData.speed;
+    stage.ballRadius = stageData.radius;
+}
+
+
 /**
  * @function init
  * @description 즉시 실행함수 이벤트 리스닝 등 1회성 함수들과 draw 함수의 실행을 담당한다
