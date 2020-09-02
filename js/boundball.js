@@ -421,7 +421,7 @@ class stageInfo extends Canvas {
     constructor () {
         super();
         this._stages = [
-            {level : 1, speed : 0, radius : 0}, {level : 2, speed : 1, radius : 1}
+            {level : 1, speed : 0, radius : 0}, {level : 2, speed : 1, radius : 1}, {level : 3, speed : 2, radius : 2}, {level : 4, speed : 3, radius : 3}, {level : 5, speed : 4, radius : 4}
         ];
         this._stageLevel = 0;
         this._ballSpeed = 0;
