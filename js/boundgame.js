@@ -2,6 +2,7 @@ const ball = new DrawBall;
 const paddle = new DrawPaddle;
 const brick = new DrawBrick;
 const userRank = new UserRanks;
+const stage = new stageInfo;
 
 /**
  * @function liveBall
@@ -188,11 +189,11 @@ function draw () {
  * @description 게임 시작 전 대기화면 및 게임 시작 이벤트를 관리한다.
  */
 function readyGame () {
-    userRank.clearCanvas();
-    userRank.drawReady();
+    stage.clearCanvas();
+    stage.drawReady();
 
     const readyEvent = (e) => {
-        userRank.canvas.removeEventListener("click", readyEvent);
+        stage.canvas.removeEventListener("click", readyEvent);
 
         paddle.canvasRender = true;
         getBrick();
@@ -200,7 +201,14 @@ function readyGame () {
         requestAnimationFrame(draw); 
     };
     
-    userRank.canvas.addEventListener("click", readyEvent);
+    stage.canvas.addEventListener("click", readyEvent);
+}
+/**
+ * @function getStage
+ * @description 스테이지 
+ */
+function getStage () {
+
 }
 /**
  * @function init

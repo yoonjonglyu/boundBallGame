@@ -357,20 +357,6 @@ class UserRanks extends Canvas{
         localStorage.setItem('boundBallRanks', JSON.stringify(this.ranks));
     }
 
-    // drawReady
-    drawReady () {
-        this.ctx.beginPath();
-        this.ctx.rect(10, 10, (this.canvas.width - 20), (this.canvas.height - 20));
-        this.ctx.fillStyle = "lightblue";
-        this.ctx.strokeStyle = "#eaeaea";
-        this.ctx.fill();
-        this.ctx.stroke();
-        this.ctx.closePath();
-
-        this.ctx.font = "1.5em 나눔고딕";
-        this.ctx.fillStyle = "#ff2e63"
-        this.ctx.fillText("시작하기 CLICK!",((this.canvas.width / 2) - 78), (this.canvas.height / 2));
-    }
     // getScore
     getScore () {
         this.scoreElement.innerText = `점수 : ${this.score}`;
@@ -418,7 +404,53 @@ class MakeItem {
 
 }
 
-// 스테이지에 관한 클래스
-class stageInfo {
-    
+
+/**
+ * @class stageInfo
+ * @extends Canvas
+ * @description 공튀기기 게임 스테이지 & 난이도
+ * @constructor stage, ballSpeed, ballRadius
+ */
+class stageInfo extends Canvas {
+    constructor () {
+        super();
+        this._stage = 0;
+        this._ballSpeed = 0;
+        this._ballRadius = 0;
+    }
+    // stage getter setter
+    get stage () {
+        return this._stage;
+    }
+    set stage (value) {
+        this._stage = value;
+    }
+    // ballSpeed getter setter
+    get ballSpeed () {
+        return this._ballSpeed;
+    }
+    set ballSpeed (value) {
+        this.ballSpped = value;
+    }
+    // ballRadius getter setter
+    get ballRadius () {
+        return this._ballRadius;
+    }
+    set ballRadius (value) {
+        this._ballRadius = value;
+    }
+
+    // drawReady
+    drawReady () {
+        this.ctx.beginPath();
+        this.ctx.rect(10, 10, (this.canvas.width - 20), (this.canvas.height - 20));
+        this.ctx.fillStyle = "lightblue";
+        this.ctx.strokeStyle = "#eaeaea";
+        this.ctx.fill();
+        this.ctx.stroke();
+        this.ctx.closePath();  
+        this.ctx.font = "1.5em 나눔고딕";
+        this.ctx.fillStyle = "#ff2e63"
+        this.ctx.fillText("시작하기 CLICK!",((this.canvas.width / 2) - 78), (this.canvas.height / 2));
+    }
 }
