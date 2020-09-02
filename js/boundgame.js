@@ -1,6 +1,6 @@
-const ball = new DrawBall;
-const paddle = new DrawPaddle;
-const brick = new DrawBrick;
+const ball = new BallInfo;
+const paddle = new PaddleInfo;
+const brick = new BrickInfo;
 const userRank = new UserRanks;
 const stage = new stageInfo;
 

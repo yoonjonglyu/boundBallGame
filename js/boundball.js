@@ -38,12 +38,12 @@ class Canvas {
     }
 }
 /**
- * @class DrawBall
+ * @class BallInfo
  * @extends Canvas
  * @description 캔버스 2d 공그리기
- * @constructor x, y, ballRadius, color, colorIndex
+ * @constructor x, y, basicRadius, ballRadius, color, colorIndex
  */
-class DrawBall extends Canvas {
+class BallInfo extends Canvas {
   constructor () {
       super();
       this._x = (this.canvas.width / 2);
@@ -120,12 +120,12 @@ class DrawBall extends Canvas {
   }
 }
 /**
- * @class DrawBrick
+ * @class BrickInfo
  * @extends Canvas
  * @description 캔버스 2d 벽돌 그리기
  * @constructor box, padding, row, column, x, y, width, height, offsetX, offsetY, color, colorIndex
  */
-class DrawBrick extends Canvas{
+class BrickInfo extends Canvas{
     constructor () {
         super();
         this._box = [];
@@ -232,12 +232,12 @@ class DrawBrick extends Canvas{
     }
 }
 /**
- * @class DrawPaddle
+ * @class PaddleInfo
  * @extends Canvas
  * @description 캔버스 2d 채 만들기
  * @constructor width, height, x, leftMove, rightMove
  */
-class DrawPaddle extends Canvas{
+class PaddleInfo extends Canvas{
     constructor () {
         super();
         this._width = (this.canvas.width / 8);
