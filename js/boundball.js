@@ -442,8 +442,8 @@ class stageInfo extends Canvas {
         return this._stageLevel;
     }
     set stageLevel (value) {
-        if(this.stages.length >= value && value > 0){
-            this._stageLevel = value - 1;
+        if(this.stages.length > value){
+            this._stageLevel = value;
             this.getStage();
         }
     }
@@ -512,7 +512,7 @@ class stageInfo extends Canvas {
             if(e.target.dataset.dismiss === "modal" || e.target.parentElement.dataset.dismiss === "modal"){
                 stageModal.style.display = "none";
             } else if (e.target.dataset.level){
-                this.stageLevel = e.target.dataset.level;
+                this.stageLevel = (parseInt(e.target.dataset.level) - 1);
             }
         });
     }

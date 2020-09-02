@@ -163,6 +163,7 @@ async function checkBrick () {
     check = await (check.map((array) => array.filter((obj) => obj.status === 1))).filter((array) => array.length > 0);
     if(check.length === 0){
         getBrick();
+        stage.stageLevel++;
     }
 }
 
