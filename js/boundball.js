@@ -449,7 +449,7 @@ class UserRanks extends Canvas{
  * @class ItemInfo
  * @extends Canvas
  * @description 공튀기기 게임 아이템
- * @constructor 
+ * @constructor items, paddleCount, paddleWidth, ballCount, penetrateCount, ballReactive, minRadius, maxRadius, ballControl
  */
 class ItemInfo extends Canvas{
     constructor () {
