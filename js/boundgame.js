@@ -72,10 +72,10 @@ function liveBall () {
     }
 }
 /**
- * @function getPaddle
+ * @function drawPaddle
  * @description 공을 받아 칠 채를 그리고 이벤트에 따라 이동시킨다
  */
-function getPaddle () {
+function drawPaddle () {
     const paddleSpeed = (paddle.canvas.width / 110);
 
     if(items.paddleCount === 0){
@@ -251,7 +251,7 @@ function checkItem (item) {
 function draw () {
     setStage();
     liveBall();
-    getPaddle();
+    drawPaddle();
     checkBrick()
     drawBrick();
     crashBrick();
