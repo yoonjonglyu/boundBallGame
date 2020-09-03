@@ -144,6 +144,10 @@ class BrickInfo extends Canvas{
             "#ffebb7","#fdffab","#f47c7c"
         ];
         this._colorIndex = 0;
+        this.blockColor =[
+            "#eaeaea", "#e84545", "#903749", "#f08a5d", "#ff2e63", "#9896f1", "#07689f"
+        ];
+        this._blockIndex = 0;
     }
     // box getter setter
     get box () {
@@ -191,6 +195,17 @@ class BrickInfo extends Canvas{
             this._colorIndex = 0;
         }
     }
+    // block index getter setter
+    get blockIndex () {
+        return this._blockIndex;
+    }
+    set blockIndex (value) {
+        if(this.blockColor.length > value){
+            this._blockIndex = value;
+        } else {
+            this._colorIndex = 0;
+        }
+    }
     // offsetX getter setter
     get offsetX () {
         return this._offsetX;
@@ -224,7 +239,7 @@ class BrickInfo extends Canvas{
     drawBricks () {
         this.ctx.beginPath();
         this.ctx.rect(this.x,this.y,this.width,this.height);
-        this.ctx.fillStyle = "#eaeaea";
+        this.ctx.fillStyle = this.blockColor[this.blockIndex];
         this.ctx.strokeStyle = this.color[this.colorIndex];
         this.ctx.fill();
         this.ctx.stroke();
@@ -409,18 +424,122 @@ class UserRanks extends Canvas{
         this.life = 3;
     }
 }
+/**
+ * @class ItemInfo
+ * @extends Canvas
+ * @description 공튀기기 게임 아이템
+ * @constructor 
+ */
+class ItemInfo extends Canvas{
+    constructor () {
+        super();
+        this._items = [
+            {
+                name : "paddle 너비 증가(패시브)",
+                color : "#e84545",
+                description : "paddle 너비를 조금 늘려준다. 공을 놓치면 초기화. (중복적용가능)"
+            },
+            {
+                name : "paddle 너비 증가(액티브)",
+                color : "#903749",
+                description : "paddle 너비를 최대로 늘려준다. 공을 10번 받아치면 효력을 상실한다. (중복적용불가)"
+            },
+            {
+                name : "공 크기 증가 (패시브)",
+                color: "#f08a5d",
+                description : "공 크기를 조금 키워준다. 공을 놓치면 초기화. (중복적용가능)"
+            },
+            {
+                name : "벽돌 관통(액티브)",
+                color: "#ff2e63",
+                description : "공이 벽돌과 충돌해도 튕기지 않게 된다. 벽돌을 10개 부수면 효력을 상실한다. (중복적용불가)"
+            },
+            {
+                name : "변화구(패시브)",
+                color: "#9896f1",
+                description : "공의 크기가 지속적으로 커졌다 작아졌다 한다. 공을 놓치면 초기화. (중복적용불가)"
+            },
+            {
+                name : "귀환 (액티브)",
+                colr: "#07689f",
+                description : "공이 즉시 paddle 위로 이동하고, 한번 space바를 통해서 원할때 공을 튕길 수 있다. (중복적용불가)"
+            }
+        ];
 
-// 아이템에 관한 클래스
-class MakeItem {
+        this._paddleCount = 0;
+        this._ballCount = 0;
+        this._ballRadius = 0;
+        this._penetrateCount = 0;
+        this._ballReactive = false;
+        this._minRadius = 0;
+        this._ballControl = false;
+    }
+    // items getter
+    get items () {
+        return this._items;
+    }
+    // paddle count getter setter
+    get paddleCount () {
+        return this._paddleCount;
+    }
+    set paddleCount (value) {
+        if(typeof value === "boolean"){
+            this._paddleCount = value;
+        }
+    }
+    // ball count getter setter
+    get ballCount () {
+        return this._ballCount;
+    }
+    set ballCount (value) {
+        this._ballCount = value;
+    }
+    // ball radius getter setter
+    get ballRadius () {
+        return this._ballRadius;
+    }
+    set ballRadius (value) {
+        this.ballRadius = value;
+    }
+    // penetrate count getter setter
+    get penetrateCount () {
+        return this._penetrateCount;
+    }
+    set penetrateCount (value) {
+        this._penetrateCount = value;
+    }
+    // ball reactive getter setter
+    get ballReactive () {
+        return this._ballReactive;
+    }
+    set ballReactive (value) {
+        if(typeof value === "boolean"){
+            this._ballReactive = value;
+        }
+    }
+    // min radius getter setter
+    get minRadius () {
+        return this._minRadius;
+    }
+    set minRadius (value) {
+        this._minRadius = value;
+    }
+    // ball control getter setter
+    get ballControl () {
+        return this._ballControl;
+    }
+    set ballControl (value) {
+        if(typeof value === "boolean"){
+            this._ballControl = value;
+        }
+    }
 
 }
-
-
 /**
  * @class stageInfo
  * @extends Canvas
  * @description 공튀기기 게임 스테이지 & 난이도
- * @constructor stages, stageLevel, ballSpeed, ballRadius
+ * @constructor stages, stageLevel, ballSpeed, ballRadius, stageElement
  */
 class stageInfo extends Canvas {
     constructor () {
@@ -515,5 +634,11 @@ class stageInfo extends Canvas {
                 this.stageLevel = (parseInt(e.target.dataset.level) - 1);
             }
         });
+    }
+
+    initStage () {
+        this.stageLevel = 0;
+        this.ballSpeed = 0;
+        this.ballRadius = 0;
     }
 }

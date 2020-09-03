@@ -93,6 +93,7 @@ function checkGameOver (ballRandom) {
             }
 
             paddle.canvasRender = false;
+            stage.initStage();
             userRank.initGame();
         } else {
             userRank.life--;
