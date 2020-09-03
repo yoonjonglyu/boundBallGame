@@ -113,8 +113,8 @@ function checkGameOver (ballRandom) {
         init();
         
         if((userRank.life - 1) < 0){
-            userRank.gameOver();
-            
+            userRank.gameOver(userRank.score);
+
             paddle.canvasRender = false;
             stage.initStage();
             userRank.initGame();

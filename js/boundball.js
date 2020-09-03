@@ -388,7 +388,7 @@ class UserRanks extends Canvas{
         this.lifeElement.innerText = `기회 : ${this.life}`;
     }
     // game over
-    gameOver () {
+    gameOver (score) {
         const gameOver = document.querySelector('#game-over');
         const ranksSubmit = document.querySelector('#ranks-submit');
 
@@ -399,8 +399,10 @@ class UserRanks extends Canvas{
             userName = userName.split(' ').join('');
 
             if(userName.length > 0){
-                this.ranks = `${userName} ${userRank.score}`;
+                this.ranks = `${userName} ${score}`;
             }
+
+            gameOver.style.display = "none";
         });
     }
     ranksEvent () {
