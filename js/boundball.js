@@ -391,11 +391,13 @@ class UserRanks extends Canvas{
     gameOver (score) {
         const gameOver = document.querySelector('#game-over');
         const ranksSubmit = document.querySelector('#ranks-submit');
-
+        const userInput = document.querySelector('#userName');
         gameOver.style.display = "block";
 
         ranksSubmit.addEventListener('click', (e) => {
-            let userName = document.querySelector('#userName').value;
+            let userName = userInput.value;
+            userInput.value = '';
+
             userName = userName.split(' ').join('');
 
             if(userName.length > 0){
