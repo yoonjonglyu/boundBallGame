@@ -387,7 +387,7 @@ class UserRanks extends Canvas{
     }
 
 
-    RanksEvent () {
+    ranksEvent () {
         const ranksModal = document.querySelector('#ranksModal');
         const ranksButton = document.querySelector('#ranks');
         const ranksBody = document.querySelector('#ranksBody');
@@ -461,7 +461,7 @@ class ItemInfo extends Canvas{
             },
             {
                 name : "귀환 (액티브)",
-                colr: "#07689f",
+                color: "#07689f",
                 description : "공이 즉시 paddle 위로 이동하고, 한번 space바를 통해서 원할때 공을 튕길 수 있다. (중복적용불가)"
             }
         ];
@@ -534,6 +534,43 @@ class ItemInfo extends Canvas{
         }
     }
 
+    itemEvent () {
+        const itemsModal = document.querySelector('#itemsModal');
+        const itemsButton = document.querySelector('#items');
+        const itemsBody = document.querySelector('#itemsBody');
+
+        itemsButton.addEventListener('click', (e) => {
+            const view = itemsBody.querySelectorAll('h4');
+            if(view.length > 0){
+                view.forEach((dom) => dom.remove());
+            }
+            for(let int = 0; int < this.items.length; int++){
+                const state = this.items[int];
+
+                const items = document.createElement('div');
+                
+                items.className = "card mb-3";
+                items.style.maxWidth =  "20rem";
+                items.style.backgroundColor = state.color;
+
+                items.innerHTML = `
+                    <div class="card-header">${state.name}</div>
+                    <div class="card-body">
+                        <p class="card-text">${state.description}</p>
+                    </div>
+                `;
+    
+                itemsBody.appendChild(items);
+            }
+            
+            itemsModal.style.display = "block";
+        });
+        itemsModal.addEventListener('click', (e) => {
+            if(e.target.dataset.dismiss === "modal" || e.target.parentElement.dataset.dismiss === "modal"){
+                itemsModal.style.display = "none";
+            }
+        });
+    }
 }
 /**
  * @class StageInfo

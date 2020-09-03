@@ -257,7 +257,8 @@ function setStage () {
 (function init (){
     paddle.keyEvent();
     paddle.mouseEvent();
-    userRank.RanksEvent();
+    userRank.ranksEvent();
     stage.stageEvent();
+    items.itemEvent();
     readyGame();
 })();
