@@ -11,6 +11,8 @@
 .life {display: inline-block; width : 40%; text-align: right;}
 .stage {display: inline-block; font-size: 1.2rem; text-align: left;}
 .modal-body {height: 500px; overflow: auto;}
+.alert {display: none; position: fixed; width: 80%; top: 30vh; left: 50%; transform: translateX(-50%); text-align: center;}
+.form-control {text-align: center;}
 
 /* content */
 

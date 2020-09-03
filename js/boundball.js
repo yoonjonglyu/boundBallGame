@@ -387,8 +387,22 @@ class UserRanks extends Canvas{
     getLife () {
         this.lifeElement.innerText = `기회 : ${this.life}`;
     }
+    // game over
+    gameOver () {
+        const gameOver = document.querySelector('#game-over');
+        const ranksSubmit = document.querySelector('#ranks-submit');
 
+        gameOver.style.display = "block";
 
+        ranksSubmit.addEventListener('click', (e) => {
+            let userName = document.querySelector('#userName').value;
+            userName = userName.split(' ').join('');
+
+            if(userName.length > 0){
+                this.ranks = `${userName} ${userRank.score}`;
+            }
+        });
+    }
     ranksEvent () {
         const ranksModal = document.querySelector('#ranksModal');
         const ranksButton = document.querySelector('#ranks');
@@ -421,6 +435,7 @@ class UserRanks extends Canvas{
             }
         });
     }
+
     initGame () {
         this.score = 0;
         this.life = 3;

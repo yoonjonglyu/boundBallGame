@@ -112,14 +112,9 @@ function checkGameOver (ballRandom) {
     } else {
         init();
         
-        if((userRank.life - 1) < 0){  
-            alert("게임 오버.");
-            let userName = prompt('랭킹에 등록할 이름을 입력해주세요. \n공백은 포함되지 않습니다.', 'ex : 김막걸리');
-            if(userName !== null){
-                userName = userName.split(' ').join('');
-                userRank.ranks = `${userName} ${userRank.score}`;
-            }
-
+        if((userRank.life - 1) < 0){
+            userRank.gameOver();
+            
             paddle.canvasRender = false;
             stage.initStage();
             userRank.initGame();

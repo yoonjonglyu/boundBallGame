@@ -27,16 +27,18 @@
             <li><button type="button" id="items" class="btn btn-warning">ViewItems</button></li>
           </ul>
         </div>
-
         <br />
+      </div>
+      <div id="game-over" class="alert alert-dismissible alert-success">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>GAME OVER!</strong>
         <p>
-          1. 튀길공(다양성확보), 받아칠 상자,
-          2. 스테이지에 따른 난이도 변화
-          3. 아이템
-          4. 성적
-          5. 저장
-          6. oop 클래스타입
+          <br />랭킹에 등록할 이름을 입력해주세요. 공백은 포함되지 않습니다.
         </p>
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="ex : 김막걸리" id="userName"><br />
+          <button type="button" id="ranks-submit" class="btn btn-primary">등록</button>
+        </div>
       </div>
       <div id="ranksModal" class="modal">
         <div class="modal-dialog" role="document">
