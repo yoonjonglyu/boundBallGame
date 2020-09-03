@@ -540,7 +540,7 @@ class ItemInfo extends Canvas{
         const itemsBody = document.querySelector('#itemsBody');
 
         itemsButton.addEventListener('click', (e) => {
-            const view = itemsBody.querySelectorAll('h4');
+            const view = itemsBody.querySelectorAll('div');
             if(view.length > 0){
                 view.forEach((dom) => dom.remove());
             }
@@ -548,7 +548,7 @@ class ItemInfo extends Canvas{
                 const state = this.items[int];
 
                 const items = document.createElement('div');
-                
+
                 items.className = "card mb-3";
                 items.style.maxWidth =  "20rem";
                 items.style.backgroundColor = state.color;
