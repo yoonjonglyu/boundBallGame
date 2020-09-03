@@ -80,8 +80,10 @@ class BallInfo extends Canvas {
       return this._ballRadius;
   }
   set ballRadius (value) {
-      this._ballRadius = value;
-      this.drawBall();
+      if(value < ((this.canvas.width + this.canvas.height) / 30)){
+        this._ballRadius = value;
+        this.drawBall();
+      }
   }
   // basic radius getter
   get basicRadius () {
@@ -145,7 +147,7 @@ class BrickInfo extends Canvas{
         ];
         this._colorIndex = 0;
         this.blockColor =[
-            "#eaeaea", "#e84545", "#903749", "#f08a5d", "#ff2e63", "#9896f1", "#07689f"
+            "#eaeaea", "#e84545", "#903749", "#ff2e63", "#9896f1", "#07689f"
         ];
         this._blockIndex = 0;
     }
@@ -445,11 +447,6 @@ class ItemInfo extends Canvas{
                 description : "paddle 너비를 최대로 늘려준다. 공을 10번 받아치면 효력을 상실한다. (중복적용불가)"
             },
             {
-                name : "공 크기 증가 (패시브)",
-                color: "#f08a5d",
-                description : "공 크기를 조금 키워준다. 공을 놓치면 초기화. (중복적용가능)"
-            },
-            {
                 name : "벽돌 관통(액티브)",
                 color: "#ff2e63",
                 description : "공이 벽돌과 충돌해도 튕기지 않게 된다. 벽돌을 10개 부수면 효력을 상실한다. (중복적용불가)"
@@ -467,11 +464,12 @@ class ItemInfo extends Canvas{
         ];
 
         this._paddleCount = 0;
+        this._paddleWidth = (this.canvas.width / 8);
         this._ballCount = 0;
-        this._ballRadius = 0;
         this._penetrateCount = 0;
         this._ballReactive = false;
         this._minRadius = 0;
+        this._maxRadius = 0;
         this._ballControl = false;
     }
     // items getter
@@ -483,9 +481,18 @@ class ItemInfo extends Canvas{
         return this._paddleCount;
     }
     set paddleCount (value) {
-        if(typeof value === "boolean"){
+        if(value <= 10){
             this._paddleCount = value;
+        } else {
+            this._paddleCount = 0;
         }
+    }
+    // paddle basic width getter setter
+    get paddleBasicWidth () {
+        return this._paddleWidth;
+    }
+    set paddleBasicWidth (value) {
+        this._paddleWidth = value;
     }
     // ball count getter setter
     get ballCount () {
@@ -494,19 +501,16 @@ class ItemInfo extends Canvas{
     set ballCount (value) {
         this._ballCount = value;
     }
-    // ball radius getter setter
-    get ballRadius () {
-        return this._ballRadius;
-    }
-    set ballRadius (value) {
-        this.ballRadius = value;
-    }
     // penetrate count getter setter
     get penetrateCount () {
         return this._penetrateCount;
     }
     set penetrateCount (value) {
-        this._penetrateCount = value;
+        if(value <= 10){
+            this._penetrateCount = value;
+        } else {
+            this._penetrateCount = 0;
+        }
     }
     // ball reactive getter setter
     get ballReactive () {
@@ -524,6 +528,15 @@ class ItemInfo extends Canvas{
     set minRadius (value) {
         this._minRadius = value;
     }
+    // max radius getter setter
+    get maxRadius () {
+        return this._maxRadius;
+    }
+    set maxRadius (value) {
+        if(value < ((this.canvas.width + this.canvas.height) / 10)){
+            this._maxRadius = value;
+          }
+    }
     // ball control getter setter
     get ballControl () {
         return this._ballControl;
@@ -534,13 +547,22 @@ class ItemInfo extends Canvas{
         }
     }
 
+    // get control
+    getControl () {
+        document.addEventListener('keyup', (e) => {
+            if(e.keyCode === 32){
+                this.ballControl = false;
+            }
+        });
+    }
+
     itemEvent () {
         const itemsModal = document.querySelector('#itemsModal');
         const itemsButton = document.querySelector('#items');
         const itemsBody = document.querySelector('#itemsBody');
 
         itemsButton.addEventListener('click', (e) => {
-            const view = itemsBody.querySelectorAll('div');
+            const view = itemsBody.querySelectorAll('h4');
             if(view.length > 0){
                 view.forEach((dom) => dom.remove());
             }
@@ -548,7 +570,7 @@ class ItemInfo extends Canvas{
                 const state = this.items[int];
 
                 const items = document.createElement('div');
-
+                
                 items.className = "card mb-3";
                 items.style.maxWidth =  "20rem";
                 items.style.backgroundColor = state.color;
@@ -570,6 +592,17 @@ class ItemInfo extends Canvas{
                 itemsModal.style.display = "none";
             }
         });
+    }
+
+    initItem () {
+        this._paddleCount = 0;
+        this._paddleWidth = (this.canvas.width / 8);
+        this._ballCount = 0;
+        this._penetrateCount = 0;
+        this._ballReactive = false;
+        this._minRadius = 0;
+        this._maxRadius = 0;
+        this._ballControl = false;
     }
 }
 /**

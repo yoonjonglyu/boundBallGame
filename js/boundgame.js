@@ -13,7 +13,18 @@ const items = new ItemInfo;
 function liveBall () {
     const ballSpeedLimit = (((ball.canvas.width + ball.canvas.height) / 250) + stage.ballSpeed);
     const ballRandom = Math.random() * (Math.random() * ballSpeedLimit);
-    ball.ballRadius = (ball.basicRadius - stage.ballRadius);
+
+    if(items.ballReactive){
+        if((ball.ballRadius + ballRandom) < items.maxRadius / 2){
+            items.minRadius = ballRandom;
+        } else if((ball.ballRadius - (ball.ballRadius / 2)) > 0) {
+            items.minRadius = - (ball.ballRadius / 2);
+        }
+
+        ball.ballRadius += items.minRadius;
+    } else {
+        ball.ballRadius = (ball.basicRadius - stage.ballRadius);
+    }
 
     // ball 변화 주기
     if(ball.moveX > 0 && ball.moveX < ballSpeedLimit){
@@ -52,8 +63,10 @@ function liveBall () {
         checkGameOver(ballRandom); 
     }
 
-    ball.x += ball.moveX;
-    ball.y += ball.moveY;
+    if(items.ballControl === false){
+        ball.x += ball.moveX;
+        ball.y += ball.moveY;
+    }
 }
 /**
  * @function getPaddle
@@ -61,7 +74,12 @@ function liveBall () {
  */
 function getPaddle () {
     const paddleSpeed = (paddle.canvas.width / 110);
-    paddle.drawPaddle();
+
+    if(items.paddleCount === 0){
+        paddle.width = items.paddleBasicWidth;
+    } else {
+        paddle.width = (paddle.canvas.width * 2);
+    }
 
     if(paddle.rightMove && paddle.x < (ball.canvas.width - paddle.width)){
         paddle.x += paddleSpeed;
@@ -69,6 +87,8 @@ function getPaddle () {
     else if (paddle.leftMove && paddle.x > 0){
     paddle.x -= paddleSpeed;
     }
+
+    paddle.drawPaddle();
 }
 /**
  * @function checkGameOver
@@ -77,11 +97,15 @@ function getPaddle () {
  */
 function checkGameOver (ballRandom) {
     const init = () => {
+        items.initItem();
         ball.initBall();
         paddle.initPaddle();
     };
     if((ball.x + ball.ballRadius - 2) > paddle.x && (ball.x - ball.ballRadius + 2) < (paddle.x + paddle.width)){
         ball.moveY = -ball.moveY + ballRandom;
+        if(items.paddleCount > 0){
+            items.paddleCount++;
+        }
     } else {
         init();
         
@@ -113,7 +137,7 @@ function getBrick () {
     for(let c = 0; c < brick.column; c++){
         brick.box[c] = [];
         for(let r = 0; r < brick.row; r++){
-            const item = Math.floor(Math.random() * 20);
+            const item = Math.floor(Math.random() * 6);
 
             brick.box[c][r] = {x: 0, y: 0, status: 1, item : item};
         }
@@ -140,7 +164,7 @@ function drawBrick () {
 }
 /**
  * @function setItems
- * @description get 해온 벽돌의 아이템 여부에 맞게 벽돌 색깔을 변경한다.
+ * @description get 해온 벽돌의 아이템 여부에 맞게 벽돌 색깔을 변경한다
  * @param {int} item item index
  */
 function setItems (item) {
@@ -160,8 +184,14 @@ function crashBrick () {
         for(let r = 0; r < brick.row; r++) {
             const state = brick.box[c][r];
             if(state.status === 1) {
-                if(ball.x > state.x && ball.x < (state.x + brick.width) && ball.y > state.y && ball.y < (state.y + brick.height)) {
-                    ball.moveY = -ball.moveY;
+                if((ball.x + ball.ballRadius) > state.x && (ball.x - ball.ballRadius) < (state.x + brick.width) && (ball.y + ball.ballRadius) > state.y && (ball.y - ball.ballRadius) < (state.y + brick.height)) {
+                    if(items.penetrateCount === 0){
+                        ball.moveY = -ball.moveY;
+                    } else {
+                        items.penetrateCount++;
+                    }
+                    checkItem(state.item);
+
                     brick.colorIndex++;
                     state.status = 0;
                     userRank.score += (1 + stage.stageLevel);
@@ -172,7 +202,7 @@ function crashBrick () {
 }
 /**
  * @function checkBrick
- * @description 남은 벽돌이 있는지 검사하고 없을 시 새로 벽돌을 생성해준다.
+ * @description 남은 벽돌이 있는지 검사하고 없을 시 새로 벽돌을 생성해준다
  */
 async function checkBrick () {
     let check = brick.box;
@@ -182,7 +212,41 @@ async function checkBrick () {
         stage.stageLevel++;
     }
 }
-
+/**
+ * @function checkItem 
+ * @description 벽돌이 격파 될때 해당 벽돌이 보유한 아이템이 있는지 확인하고 있으면 효과를 적용시켜준다
+ * @param {Int} item item index 
+ */
+function checkItem (item) {
+    switch (item){
+        case 1: 
+            items.paddleBasicWidth += (paddle.canvas.width / 30);;
+            break;
+        case 2:
+            items.paddleCount = 1;
+            if(items.paddleCount === 0){
+                items.paddleBasicWidth = paddle.width;
+            }
+            break;
+        case 3:
+            items.penetrateCount = 1;
+            break;
+        case 4:
+            if(items.ballReactive === false){
+                items.minRadius = ball.ballRadius;
+                items.maxRadius = (ball.ballRadius * 5)
+            }
+            items.ballReactive = true;
+            break;
+        case 5:
+            items.ballControl = true;
+            ball.x = (ball.canvas.width / 2);
+            ball.y = (ball.canvas.height - 30);
+            break;
+        default:
+            break;
+    } 
+}
 
 /**
  * @function draw
@@ -204,7 +268,7 @@ function draw () {
 }
 /** 
  * @function readyGame
- * @description 게임 시작 전 대기화면 및 게임 시작 이벤트를 관리한다.
+ * @description 게임 시작 전 대기화면 및 게임 시작 이벤트를 관리한다
  */
 function readyGame () {
     stage.clearCanvas();
@@ -260,5 +324,6 @@ function setStage () {
     userRank.ranksEvent();
     stage.stageEvent();
     items.itemEvent();
+    items.getControl();
     readyGame();
 })();
