@@ -581,7 +581,7 @@ class ItemInfo extends Canvas{
         const itemsBody = document.querySelector('#itemsBody');
 
         itemsButton.addEventListener('click', (e) => {
-            const view = itemsBody.querySelectorAll('h4');
+            const view = itemsBody.querySelectorAll('div');
             if(view.length > 0){
                 view.forEach((dom) => dom.remove());
             }
