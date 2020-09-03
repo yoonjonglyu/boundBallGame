@@ -536,12 +536,12 @@ class ItemInfo extends Canvas{
 
 }
 /**
- * @class stageInfo
+ * @class StageInfo
  * @extends Canvas
  * @description 공튀기기 게임 스테이지 & 난이도
  * @constructor stages, stageLevel, ballSpeed, ballRadius, stageElement
  */
-class stageInfo extends Canvas {
+class StageInfo extends Canvas {
     constructor () {
         super();
         this._stages = [

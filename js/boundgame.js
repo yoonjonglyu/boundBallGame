@@ -2,7 +2,8 @@ const ball = new BallInfo;
 const paddle = new PaddleInfo;
 const brick = new BrickInfo;
 const userRank = new UserRanks;
-const stage = new stageInfo;
+const stage = new StageInfo;
+const items = new ItemInfo;
 
 
 /**
@@ -112,7 +113,9 @@ function getBrick () {
     for(let c = 0; c < brick.column; c++){
         brick.box[c] = [];
         for(let r = 0; r < brick.row; r++){
-          brick.box[c][r] = {x: 0 ,y: 0, status: 1};
+            const item = Math.floor(Math.random() * 20);
+
+            brick.box[c][r] = {x: 0, y: 0, status: 1, item : item};
         }
     }
 }
@@ -129,12 +132,24 @@ function drawBrick () {
                 brick.box[c][r].x = brick.x;
                 brick.box[c][r].y = brick.y;
 
+                setItems(brick.box[c][r].item);
                 brick.drawBricks();
             }
         }
     }
 }
-
+/**
+ * @function setItems
+ * @description get 해온 벽돌의 아이템 여부에 맞게 벽돌 색깔을 변경한다.
+ * @param {int} item item index
+ */
+function setItems (item) {
+    if(items.items.length > item){
+        brick.blockIndex = item;
+    } else {
+        brick.blockIndex = 0;
+    }
+}
 
 /**
  * @function crashBrick
