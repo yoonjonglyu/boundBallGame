@@ -66,6 +66,9 @@ function liveBall () {
     if(items.ballControl === false){
         ball.x += ball.moveX;
         ball.y += ball.moveY;
+    } else {
+        ball.x = (paddle.x + (paddle.width / 2));
+        ball.y = (ball.canvas.height - 30);
     }
 }
 /**
@@ -137,7 +140,7 @@ function getBrick () {
     for(let c = 0; c < brick.column; c++){
         brick.box[c] = [];
         for(let r = 0; r < brick.row; r++){
-            const item = Math.floor(Math.random() * 6);
+            const item = Math.floor(Math.random() * 18);
 
             brick.box[c][r] = {x: 0, y: 0, status: 1, item : item};
         }
@@ -168,7 +171,7 @@ function drawBrick () {
  * @param {int} item item index
  */
 function setItems (item) {
-    if(items.items.length > item){
+    if(items.items.length >= item){
         brick.blockIndex = item;
     } else {
         brick.blockIndex = 0;
@@ -240,8 +243,6 @@ function checkItem (item) {
             break;
         case 5:
             items.ballControl = true;
-            ball.x = (ball.canvas.width / 2);
-            ball.y = (ball.canvas.height - 30);
             break;
         default:
             break;

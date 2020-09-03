@@ -146,7 +146,7 @@ class BrickInfo extends Canvas{
             "#ffebb7","#fdffab","#f47c7c"
         ];
         this._colorIndex = 0;
-        this.blockColor =[
+        this.blockColor = [
             "#eaeaea", "#e84545", "#903749", "#ff2e63", "#9896f1", "#07689f"
         ];
         this._blockIndex = 0;
