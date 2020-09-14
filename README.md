@@ -1,5 +1,5 @@
 # 공튀기기 게임
-> pure javaScript & Canvas Web game.
+> javaScript & Canvas Web game.
 
 ## page
 - [boundBallGame](https://yoonjonglyu.github.io/boundBallGame/ "boundBallGame link")
